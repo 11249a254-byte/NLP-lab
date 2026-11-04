@@ -1,0 +1,24 @@
+import re
+from nltk.probability import FreqDist
+corpus = """i am samhi
+i like studying nlp
+nlp is pretty interesting
+the park is pretty
+i movie was interesting"""
+def tokenize(text):
+    text = text.lower()
+    tokens = re.findall(r"[a-z']+", text)
+    return tokens
+tokens = tokenize(corpus)
+N = len(tokens)
+unigram_counts = FreqDist(tokens)
+print("Total tokens (N):", N)
+print(f"{'Word':<12}{'Count':<8}{'P(word)':<10}")
+print("-" * 30)
+for word, count in unigram_counts.most_common():
+    prob = count / N
+    print(f"{word:<12}{count:<8}{prob:<10.4f}")
+def unigram_probability(word):
+    return unigram_counts[word] / N
+test_word = "i"
+print(f"\nP('{test_word}') = {unigram_probability(test_word):.4f}")
